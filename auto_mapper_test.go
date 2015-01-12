@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func _TestInt(t *testing.T) {
+func TestInt(t *testing.T) {
 	var src = int(12)
 	var dest = int(32)
 	bm := new(AutoMapper)
@@ -20,7 +20,7 @@ func _TestInt(t *testing.T) {
 
 }
 
-func _TestString(t *testing.T) {
+func TestString(t *testing.T) {
 	var src = string("dddddddd")
 	var dest = string("")
 	bm := new(AutoMapper)
@@ -62,11 +62,29 @@ func TestArrOfInt(t *testing.T) {
 		}
 		i++
 	}
-	//t.Errorf("%v", dest)
 }
 
 func TestObj01(t *testing.T) {
+	s01 := S01{
+		Id:   1,
+		Name: "eeeeee eeee",
+	}
+	var d01 D01
+	bm := new(AutoMapper)
+	err := bm.Auto(&s01, &d01)
+	if err != nil {
+		t.Errorf("bm.Auto(&src, &dest); err = %s", err.Error())
+	}
 
+	if d01.Id != s01.Id {
+		t.Errorf("d01.Id != s01.Id")
+	}
+
+	if d01.Name != s01.Name {
+		t.Errorf("d01.Name != s01.Name")
+	}
+
+	//t.Errorf("%#v", d01)
 }
 
 type D01 struct {
@@ -79,7 +97,7 @@ type S01 struct {
 	Name string
 }
 
-func _Test01(t *testing.T) {
+func TestObj02(t *testing.T) {
 
 	src01 := Src01{
 		Id: 1,
