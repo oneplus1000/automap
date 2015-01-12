@@ -121,7 +121,6 @@ func TestObj02(t *testing.T) {
 	if len(src01.ArrInt) != len(dest01.ArrInt) {
 		t.Errorf("len(src01.ArrInt) != len(dest01.ArrInt); len(src01.ArrInt) == %d ; len(dest01.ArrInt == %d ", len(src01.ArrInt), len(dest01.ArrInt))
 	} else {
-
 		i := 0
 		max := len(src01.ArrInt)
 		for i < max {
