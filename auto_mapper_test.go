@@ -108,6 +108,17 @@ func TestObj02(t *testing.T) {
 			123,
 			456,
 		},
+		Im: SrcItem01{
+			Name: "oneplus",
+		},
+		Items: []SrcItem01{
+			SrcItem01{
+				Name: "noi",
+			},
+			SrcItem01{
+				Name: "noi2",
+			},
+		},
 	}
 	var dest01 Dest01
 
@@ -138,14 +149,36 @@ func TestObj02(t *testing.T) {
 		}
 
 	}
+
+	if src01.Im.Name != dest01.Im.Name {
+		t.Errorf("src01.Im.Name != dest01.Im.Name")
+	}
+
+	if len(src01.Items) != len(dest01.Items) {
+		t.Errorf("len(src01.Items) != len(dest01.Items)")
+	}
+
+	t.Errorf("%v", dest01)
 }
 
 type Src01 struct {
 	Id     int
 	ArrInt []int
+	Im     SrcItem01
+	Items  []SrcItem01
+}
+
+type SrcItem01 struct {
+	Name string
 }
 
 type Dest01 struct {
 	Id     int
 	ArrInt []int
+	Im     DestItem01
+	Items  []DestItem01
+}
+
+type DestItem01 struct {
+	Name string
 }

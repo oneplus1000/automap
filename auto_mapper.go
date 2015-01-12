@@ -106,16 +106,3 @@ func (me *AutoMapper) GetKind(obj interface{}) reflect.Kind {
 	}
 	return kind
 }
-
-/*
-func (me *AutoMapper) ReflectValue(obj interface{}) reflect.Value {
-
-	var val reflect.Value
-	if reflect.TypeOf(obj).Kind() == reflect.Ptr {
-		val = reflect.ValueOf(obj).Elem()
-	} else {
-		val = reflect.ValueOf(obj)
-	}
-
-	return val
-}*/
