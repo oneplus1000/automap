@@ -24,7 +24,6 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 		if srckind != destkind {
 			return ERROR_MAPPER_KIND_OF_SRC_AND_DEST_NOT_MATCH
 		}
-
 		i := 0
 		max := srcval.Len()
 		destTypeOfItemInSlice := destval.Type().Elem()
