@@ -74,14 +74,17 @@ func TestObj01(t *testing.T) {
 	err := bm.Auto(&s01, &d01)
 	if err != nil {
 		t.Errorf("bm.Auto(&src, &dest); err = %s", err.Error())
+		return
 	}
 
 	if d01.Id != s01.Id {
 		t.Errorf("d01.Id != s01.Id")
+		return
 	}
 
 	if d01.Name != s01.Name {
 		t.Errorf("d01.Name != s01.Name")
+		return
 	}
 
 	//t.Errorf("%#v", d01)
