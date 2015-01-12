@@ -1,5 +1,5 @@
 # automap
-Example
+##Example
 ```go
 package main
 
