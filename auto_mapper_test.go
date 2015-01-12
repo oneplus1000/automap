@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestInt(t *testing.T) {
+func _TestInt(t *testing.T) {
 	var src = int(12)
 	var dest = int(32)
 	bm := new(AutoMapper)
@@ -20,7 +20,7 @@ func TestInt(t *testing.T) {
 
 }
 
-func TestString(t *testing.T) {
+func _TestString(t *testing.T) {
 	var src = string("dddddddd")
 	var dest = string("")
 	bm := new(AutoMapper)
@@ -39,7 +39,7 @@ func TestString(t *testing.T) {
 
 func TestArrOfInt(t *testing.T) {
 	var src = []int{12, 21, 33}
-	var dest = []int{0, 0, 0}
+	var dest []int
 	bm := new(AutoMapper)
 	err := bm.Auto(&src, &dest)
 
@@ -49,7 +49,7 @@ func TestArrOfInt(t *testing.T) {
 	}
 
 	if len(dest) != len(src) {
-		t.Errorf("len(dest) != len(src) ; dest = %v", dest)
+		t.Errorf("len(dest) != len(src) ; len(dest) = %d ", len(dest))
 		return
 	}
 
@@ -57,12 +57,12 @@ func TestArrOfInt(t *testing.T) {
 	max := len(src)
 	for i < max {
 		if src[i] != dest[i] {
-			t.Errorf("dest[%d] != src[%d] ; dest = %v", i, dest)
+			t.Errorf("dest[%d] != src[%d] ; dest = %d", i, i, dest)
 			return
 		}
 		i++
 	}
-	t.Errorf("%v", dest)
+	//t.Errorf("%v", dest)
 }
 
 func _Test01(t *testing.T) {

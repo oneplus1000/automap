@@ -20,11 +20,14 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 	destval := me.ReflectValue(dest)
 
 	if me.IsNormalType(srckind) { //normal type
+		//log.Printf("srckin = %s; destkind= %s", srckind, destkind)
 		if srckind != destkind {
+			//log.Printf("srckin = %s; destkind= %s", srckind, destkind)
 			return ERROR_MAPPER_KIND_OF_SRC_AND_DEST_NOT_MATCH
 		}
 
 		destval.Set(srcval)
+		//log.Printf("---------%d", destval.Interface())
 		return nil
 	} else if srckind == reflect.Slice { //array
 		if srckind != destkind {
@@ -32,13 +35,22 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 		}
 		i := 0
 		max := srcval.Len()
-		destelemtype := reflect.TypeOf(destval)
-		for i < max {
+		destTypeOfItemInSlice := destval.Type().Elem()
 
-			//me.Auto(srcval.Index(i).Interface())
-			log.Printf("%#v", destelemtype)
+		newarr := reflect.MakeSlice(destval.Type(), max, max)
+		for i < max {
+			destValOfItemInSlice := reflect.New(destTypeOfItemInSlice)
+			err := me.Auto(srcval.Index(i).Interface(), destValOfItemInSlice.Interface())
+			if err != nil {
+				return err
+			}
+			newarr.Index(i).Set(destValOfItemInSlice.Elem())
+			//log.Printf("--->%d", destValOfItemInSlice.Elem().Interface())
+			//destval.Set(destValOfItemInSlice)
 			i++
 		}
+		destval.Set(newarr)
+		log.Printf("%#v", destval.Len())
 	}
 
 	return nil
