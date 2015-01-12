@@ -65,6 +65,20 @@ func TestArrOfInt(t *testing.T) {
 	//t.Errorf("%v", dest)
 }
 
+func TestObj01(t *testing.T) {
+
+}
+
+type D01 struct {
+	Id   int
+	Name string
+}
+
+type S01 struct {
+	Id   int
+	Name string
+}
+
 func _Test01(t *testing.T) {
 
 	src01 := Src01{
