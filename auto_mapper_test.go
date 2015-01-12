@@ -112,20 +112,24 @@ func TestObj02(t *testing.T) {
 	err := bm.Auto(&src01, &dest01)
 	if err != nil {
 		t.Errorf("err := bm.Auto(&src01, &dest01); err=%s", err.Error())
+		return
 	}
 
 	if src01.Id != dest01.Id {
 		t.Errorf("src01.Id != dest01.Id")
+		return
 	}
 
 	if len(src01.ArrInt) != len(dest01.ArrInt) {
 		t.Errorf("len(src01.ArrInt) != len(dest01.ArrInt); len(src01.ArrInt) == %d ; len(dest01.ArrInt == %d ", len(src01.ArrInt), len(dest01.ArrInt))
+		return
 	} else {
 		i := 0
 		max := len(src01.ArrInt)
 		for i < max {
 			if src01.ArrInt[i] != dest01.ArrInt[i] {
 				t.Errorf("rc01.ArrInt[%d] != dest01.ArrInt[%d]", i)
+				return
 			}
 			i++
 		}
