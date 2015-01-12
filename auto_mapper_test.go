@@ -158,7 +158,12 @@ func TestObj02(t *testing.T) {
 		t.Errorf("len(src01.Items) != len(dest01.Items)")
 	}
 
-	t.Errorf("%v", dest01)
+	for i, item := range src01.Items {
+		if dest01.Items[i].Name != item.Name {
+			t.Errorf("dest01.Items[i] != item")
+		}
+	}
+	//t.Errorf("%v", dest01)
 }
 
 type Src01 struct {
