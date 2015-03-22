@@ -13,6 +13,10 @@ type AutoMapper struct {
 }
 
 func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
+	return me.auto(src, dest, nil, nil)
+}
+
+func (me *AutoMapper) auto(src interface{}, dest interface{}, srctag *reflect.StructTag, desttag *reflect.StructTag) error {
 
 	srckind := me.GetKind(src)
 	destkind := me.GetKind(dest)
@@ -30,7 +34,7 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 		newarr := reflect.MakeSlice(destval.Type(), max, max)
 		for i < max {
 			destValOfItemInSlice := reflect.New(destTypeOfItemInSlice)
-			err := me.Auto(srcval.Index(i).Interface(), destValOfItemInSlice.Interface())
+			err := me.auto(srcval.Index(i).Interface(), destValOfItemInSlice.Interface(), nil, nil)
 			if err != nil {
 				return err
 			}
@@ -58,7 +62,7 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 			}
 
 			name := srcfield.Name
-			_, ok := desttype.FieldByName(name)
+			destfield, ok := desttype.FieldByName(name)
 			if !ok { //dest ไม่มี field นี้ ข้ามไป
 				i++
 				continue
@@ -68,7 +72,7 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 			destfieldval := destval.FieldByName(name)
 
 			newval := reflect.New(destfieldval.Type())
-			me.Auto(srcfieldval.Interface(), newval.Interface())
+			me.auto(srcfieldval.Interface(), newval.Interface(), &srcfield.Tag, &destfield.Tag)
 			destfieldval.Set(newval.Elem())
 			i++
 		}
@@ -79,13 +83,26 @@ func (me *AutoMapper) Auto(src interface{}, dest interface{}) error {
 		if srckind != destkind {
 			return ERROR_MAPPER_KIND_OF_SRC_AND_DEST_NOT_MATCH
 		}
-		//log.Printf("--------> srckind=%s destkind=%s\n\n", srckind, destkind)
+		if me.IsIgnore(srctag) { //read ignore tag from src
+			return nil
+		}
 		destval.Set(srcval)
 		return nil
 
 	}
 
 	return nil
+}
+
+func (me *AutoMapper) IsIgnore(tag *reflect.StructTag) bool {
+	if tag == nil {
+		return false
+	}
+
+	if tag.Get("automap") == "ignore" {
+		return true
+	}
+	return false
 }
 
 func (me *AutoMapper) ReflectValue(obj interface{}) reflect.Value {
